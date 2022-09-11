@@ -1,0 +1,34 @@
+-- recuperação de pedido com produto associado
+select * from clients c
+				inner join orders o on c.idClient = o.idOrderClient
+                inner join productOrder p on p.idPOorder = o.idOrder
+                group by idClient;
+
+-- Recuperar quantos pedidos foram realizados pelos clientes?
+select idClient, Fname, count(*) as number_of_orders from clients
+	 inner join orders on idClient = idOrderClient
+     group by idClient;
+     
+     
+-- Recuperações simples com SELECT Statement e Filtros com WHERE Statement
+
+-- O pedido de cada cliente
+select concat(c.Fname,' ', c.Minit,' ', c.Lname) as complete_name, orderDescription as metódos_de_compra, pname as produto, category as categoria  
+		from clients as c, orders as o, product as p 
+        where c.idClient = o.idOrderClient and o.idOrderClient = idProduct;
+        
+-- Produtos em estoque e quantidade disponível no estoque de cada estado
+select p.Pname as produto, quantity as quantidade, storageLocation as local_deposito 
+		from product as p, storageLocation as s, productStorage as ps 
+        where p.idProduct = idLproduct and idLstorage = idProdStorage;
+        
+        
+        
+-- Crie expressões para gerar atributos derivados
+
+-- Produtos com avaliação acima de 3 estrelas recebe a avaliação "bom", produtos com 5 estrelas recebem avaliação 'Ótimo'
+select Pname as produto, category as categoria, avaliação, 
+		case when avaliação = 5 then 'Ótimo' 
+			 when avaliação >= 3 then 'Bom' 
+             else 'Ruim' end as avaliação  
+             from product;
